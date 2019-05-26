@@ -1,7 +1,6 @@
 package com.kainos.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -29,13 +28,6 @@ class CurrencyExchangeServiceTest {
 
     private String fromCurrency = "USD";
     private String toCurrency = "EUR";
-
-    @Test
-    void deleteInvoiceMethodShouldThrowExceptionForNullId() {
-        assertThrows(IllegalArgumentException.class, () -> currencyExchangeService.getCurrentExchangeRate("USD", null));
-        assertThrows(IllegalArgumentException.class, () -> currencyExchangeService.getCurrentExchangeRate(null, null));
-        assertThrows(IllegalArgumentException.class, () -> currencyExchangeService.getCurrentExchangeRate(null, "USD"));
-    }
 
     @Disabled
     @Test

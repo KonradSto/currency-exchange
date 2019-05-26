@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.kainos.service.CurrencyExchangeService;
+import com.kainos.utils.ArgumentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class CurrencyExchangeController {
 
     @Autowired
     public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService) {
+        ArgumentValidator.ensureNotNull(currencyExchangeService, "currency exchange service");
         this.currencyExchangeService = currencyExchangeService;
     }
 

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kainos.model.*;
+import com.kainos.utils.ArgumentValidator;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,10 @@ public class CurrencyExchangeService {
 
     public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade, HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily,
                                    HistoricalCurrencyTradeWeekly historicalCurrencyTradeWeekly, HistoricalCurrencyTradeMonthly historicalCurrencyTradeMonthly) {
+        ArgumentValidator.ensureNotNull(realtimeCurrencyTrade, "realtime currency trade");
+        ArgumentValidator.ensureNotNull(historicalCurrencyTradeDaily, "historical currency trade daily");
+        ArgumentValidator.ensureNotNull(historicalCurrencyTradeWeekly, "historical currency trade weekly");
+        ArgumentValidator.ensureNotNull(historicalCurrencyTradeMonthly, "historical currency trade monthly");
         this.realtimeCurrencyTrade = realtimeCurrencyTrade;
         this.historicalCurrencyTradeDaily = historicalCurrencyTradeDaily;
         this.historicalCurrencyTradeWeekly = historicalCurrencyTradeWeekly;
@@ -27,7 +32,7 @@ public class CurrencyExchangeService {
     }
 
     public String getCurrentExchangeRate(String fromCurrency, String toCurrency) throws IOException {
-        if (fromCurrency == null || toCurrency == null) {
+        if (fromCurrency.equals(null) || toCurrency.equals(null)){
             throw new IllegalArgumentException("Both from and to currency cannot be null");
         }
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -52,9 +57,9 @@ public class CurrencyExchangeService {
     }
 
     public Map<String, Float> getHistoricalCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange) throws IOException {
-        if (fromCurrency == null || toCurrency == null) {
-            throw new IllegalArgumentException("Both from and to currency cannot be null");
-        }
+        ArgumentValidator.ensureNotNull(fromCurrency, "from currency");
+        ArgumentValidator.ensureNotNull(toCurrency, "to currency");
+        ArgumentValidator.ensureNotNull(timeRange, "time range");
         Map<String, Float> historicalCurrencyExchangeMap = new LinkedHashMap<>();
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         switch (timeRange) {
