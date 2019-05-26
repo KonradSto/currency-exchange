@@ -26,7 +26,7 @@ public class CurrencyExchangeController {
 
     @GetMapping({"/"})
     public ModelAndView showCurrencyExchangePanel(){
-        ModelAndView model = new ModelAndView("home");
+        ModelAndView model = new ModelAndView("homepage");
         String currencyCode = "";
         List<String> currencyList = currencyExchangeService.setCurrencyCodesList();
         model.addObject("currencyCode", currencyCode);
