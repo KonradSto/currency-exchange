@@ -16,5 +16,4 @@ public class HistoricalCurrencyTradeDaily extends HistoricalCurrencyTrade{
     public void setDailyValues(Map<String, HistoricalCurrencyTradeValue> dailyValues) {
         this.dailyValues = dailyValues;
     }
-
 }

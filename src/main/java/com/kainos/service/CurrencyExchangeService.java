@@ -7,8 +7,7 @@ import java.util.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kainos.model.HistoricalCurrencyTradeDaily;
-import com.kainos.model.RealtimeCurrencyTrade;
+import com.kainos.model.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,10 +15,15 @@ public class CurrencyExchangeService {
 
     private RealtimeCurrencyTrade realtimeCurrencyTrade;
     private HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily;
+    private HistoricalCurrencyTradeWeekly historicalCurrencyTradeWeekly;
+    private HistoricalCurrencyTradeMonthly historicalCurrencyTradeMonthly;
 
-    public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade, HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily) {
+    public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade, HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily,
+                                   HistoricalCurrencyTradeWeekly historicalCurrencyTradeWeekly, HistoricalCurrencyTradeMonthly historicalCurrencyTradeMonthly) {
         this.realtimeCurrencyTrade = realtimeCurrencyTrade;
         this.historicalCurrencyTradeDaily = historicalCurrencyTradeDaily;
+        this.historicalCurrencyTradeWeekly = historicalCurrencyTradeWeekly;
+        this.historicalCurrencyTradeMonthly = historicalCurrencyTradeMonthly;
     }
 
     public String getCurrentExchangeRate(String fromCurrency, String toCurrency) throws IOException {
@@ -47,22 +51,56 @@ public class CurrencyExchangeService {
         return new ArrayList<>(currencyMap.keySet());
     }
 
-/*    public String setCurrencyExchangeTimeRange(String timeRange) {
-
-    }*/
-
-    public Map<String, Float> getHistoricalCurrencyExchangeMap(String fromCurrency, String toCurrency) throws IOException {
+    public Map<String, Float> getHistoricalCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange) throws IOException {
         if (fromCurrency == null || toCurrency == null) {
             throw new IllegalArgumentException("Both from and to currency cannot be null");
         }
-        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
-        historicalCurrencyTradeDaily = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
-            + fromCurrency + "&to_symbol=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), HistoricalCurrencyTradeDaily.class);
         Map<String, Float> historicalCurrencyExchangeMap = new LinkedHashMap<>();
-        for (String key : historicalCurrencyTradeDaily.getDailyValues().keySet()) {
-            Float value = Float.valueOf(historicalCurrencyTradeDaily.getDailyValues().get(key).getValue());
-            historicalCurrencyExchangeMap.put(key, value);
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        switch (timeRange) {
+            case "DAILY":
+                historicalCurrencyExchangeMap = getDailyCurrencyExchangeMap(fromCurrency, toCurrency, timeRange, objectMapper);
+                break;
+            case "WEEKLY":
+                historicalCurrencyExchangeMap = getWeeklyCurrencyExchangeMap(fromCurrency, toCurrency, timeRange, objectMapper);
+                break;
+            case "MONTHLY":
+                historicalCurrencyExchangeMap = getMonthlyCurrencyExchangeMap(fromCurrency, toCurrency, timeRange, objectMapper);
+                break;
         }
         return historicalCurrencyExchangeMap;
+    }
+
+    private Map<String, Float> getMonthlyCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange, ObjectMapper objectMapper) throws IOException {
+        Map<String, Float> monthlyCurrencyExchangeMap = new LinkedHashMap<>();
+        historicalCurrencyTradeMonthly = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_" + timeRange + "&from_symbol="
+            + fromCurrency + "&to_symbol=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), HistoricalCurrencyTradeMonthly.class);
+        for (String key : historicalCurrencyTradeMonthly.getMonthlyValues().keySet()) {
+            Float value = Float.valueOf(historicalCurrencyTradeMonthly.getMonthlyValues().get(key).getValue());
+            monthlyCurrencyExchangeMap.put(key, value);
+        }
+        return monthlyCurrencyExchangeMap;
+    }
+
+    private Map<String, Float> getWeeklyCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange, ObjectMapper objectMapper) throws IOException {
+        Map<String, Float> weeklyCurrencyExchangeMap = new LinkedHashMap<>();
+        historicalCurrencyTradeWeekly = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_" + timeRange + "&from_symbol="
+            + fromCurrency + "&to_symbol=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), HistoricalCurrencyTradeWeekly.class);
+        for (String key : historicalCurrencyTradeWeekly.getWeeklyValues().keySet()) {
+            Float value = Float.valueOf(historicalCurrencyTradeWeekly.getWeeklyValues().get(key).getValue());
+            weeklyCurrencyExchangeMap.put(key, value);
+        }
+        return weeklyCurrencyExchangeMap;
+    }
+
+    private Map<String, Float> getDailyCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange, ObjectMapper objectMapper) throws IOException {
+        Map<String, Float> dailyCurrencyExchangeMap = new LinkedHashMap<>();
+        historicalCurrencyTradeDaily = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_" + timeRange + "&from_symbol="
+            + fromCurrency + "&to_symbol=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), HistoricalCurrencyTradeDaily.class);
+        for (String key : historicalCurrencyTradeDaily.getDailyValues().keySet()) {
+            Float value = Float.valueOf(historicalCurrencyTradeDaily.getDailyValues().get(key).getValue());
+            dailyCurrencyExchangeMap.put(key, value);
+        }
+        return dailyCurrencyExchangeMap;
     }
 }

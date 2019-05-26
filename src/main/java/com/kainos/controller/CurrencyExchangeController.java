@@ -40,7 +40,7 @@ public class CurrencyExchangeController {
         modelAndView.addObject("to", toCurrency);
         modelAndView.addObject("timeRange", timeRange);
         modelAndView.addObject("value", currencyExchangeService.getCurrentExchangeRate(fromCurrency, toCurrency));
-        modelAndView.addObject("currencyMap", currencyExchangeService.getHistoricalCurrencyExchangeMap(fromCurrency, toCurrency));
+        modelAndView.addObject("currencyMap", currencyExchangeService.getHistoricalCurrencyExchangeMap(fromCurrency, toCurrency, timeRange));
         return modelAndView;
     }
 }

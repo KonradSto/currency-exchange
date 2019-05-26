@@ -7,14 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HistoricalCurrencyTradeWeekly extends HistoricalCurrencyTrade{
 
     @JsonProperty("Time Series FX (Weekly)")
-    private Map<String, HistoricalCurrencyTradeValue> dailyValues;
+    private Map<String, HistoricalCurrencyTradeValue> weeklyValues;
 
-    public Map<String, HistoricalCurrencyTradeValue> getDailyValues() {
-        return dailyValues;
+    public Map<String, HistoricalCurrencyTradeValue> getWeeklyValues() {
+        return weeklyValues;
     }
 
-    public void setDailyValues(Map<String, HistoricalCurrencyTradeValue> dailyValues) {
-        this.dailyValues = dailyValues;
+    public void setWeeklyValues(Map<String, HistoricalCurrencyTradeValue> weeklyValues) {
+        this.weeklyValues = weeklyValues;
     }
-
 }
