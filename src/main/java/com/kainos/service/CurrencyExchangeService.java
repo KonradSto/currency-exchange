@@ -2,9 +2,12 @@ package com.kainos.service;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.*;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kainos.model.HistoricalCurrencyTrade;
 import com.kainos.model.RealtimeCurrencyTrade;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class CurrencyExchangeService {
 
     private RealtimeCurrencyTrade realtimeCurrencyTrade;
+    private  HistoricalCurrencyTrade historicalCurrencyTrade;
 
-    public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade) {
+    public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade, HistoricalCurrencyTrade historicalCurrencyTrade) {
         this.realtimeCurrencyTrade = realtimeCurrencyTrade;
+        this.historicalCurrencyTrade = historicalCurrencyTrade;
     }
 
     public String getCurrentExchangeRate(String fromCurrency, String toCurrency) throws IOException {
@@ -25,5 +30,35 @@ public class CurrencyExchangeService {
         realtimeCurrencyTrade = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
             + fromCurrency + "&to_currency=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), RealtimeCurrencyTrade.class);
         return realtimeCurrencyTrade.getRealtimeCurrencyTradeAttributes().getExchangeRate();
+    }
+
+
+    public List<String> setCurrencyCodesList() {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> currencyMap = new HashMap<>();
+        try {
+            currencyMap = mapper.readValue(new URL(
+                "https://openexchangerates.org/api/currencies.json"), new TypeReference<Map<String, String>>() {
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>(currencyMap.keySet());
+    }
+
+    public Map<String, Float> getHistoricalCurrencyExchangeMap(String fromCurrency, String toCurrency) throws IOException {
+        if (fromCurrency == null || toCurrency == null) {
+            throw new IllegalArgumentException("Both from and to currency cannot be null");
+        }
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
+        historicalCurrencyTrade = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="
+            + fromCurrency + "&to_symbol=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), HistoricalCurrencyTrade.class);
+        Map<String, Float> historicalCurrencyExchangeMap = new LinkedHashMap<>();
+        for (String key : historicalCurrencyTrade.getDailyValues().keySet()) {
+            Float value = Float.valueOf(historicalCurrencyTrade.getDailyValues().get(key).getValue());
+            historicalCurrencyExchangeMap.put(key, value);
+        }
+        return historicalCurrencyExchangeMap;
     }
 }
