@@ -8,18 +8,24 @@
 <h1>Select exchange currencies</h1>
 <form action="#" th:action="@{/exchange}" method="post">
     <p>From:</p>
-    <select name="From">
+    <select name="from">
         <option value="USD" selected="selected"> USD </option>
         <option th:each="currencyCode : ${currencyList}"
                 th:value="${currencyCode}"
                 th:text="${currencyCode}"></option>
     </select>
     <p>To:</p>
-    <select name="To">
+    <select name="to">
         <option value="EUR" selected="selected"> EUR </option>
         <option th:each="currencyCode : ${currencyList}"
                 th:value="${currencyCode}"
                 th:text="${currencyCode}"></option>
+    </select>
+    <p>To:</p>
+    <select name="timeRange">
+        <option value="DAILY" selected="selected"> DAILY </option>
+        <option value="WEEKLY">WEEKLY</option>
+        <option value="MONTHLY">MONTHLY</option>
     </select>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>

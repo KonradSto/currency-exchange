@@ -34,10 +34,11 @@ public class CurrencyExchangeController {
 
     @PostMapping("/exchange")
     @ResponseBody
-    public ModelAndView exchangeCurrency(@RequestParam("From") String fromCurrency, @RequestParam("To") String toCurrency) throws IOException {
+    public ModelAndView exchangeCurrency(@RequestParam("from") String fromCurrency, @RequestParam("to") String toCurrency,  @RequestParam("timeRange") String timeRange) throws IOException {
         ModelAndView modelAndView = new ModelAndView("exchange");
-        modelAndView.addObject("From", fromCurrency);
-        modelAndView.addObject("To", toCurrency);
+        modelAndView.addObject("from", fromCurrency);
+        modelAndView.addObject("to", toCurrency);
+        modelAndView.addObject("timeRange", timeRange);
         modelAndView.addObject("value", currencyExchangeService.getCurrentExchangeRate(fromCurrency, toCurrency));
         modelAndView.addObject("currencyMap", currencyExchangeService.getHistoricalCurrencyExchangeMap(fromCurrency, toCurrency));
         return modelAndView;
