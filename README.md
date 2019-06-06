@@ -1,4 +1,4 @@
-# Web currency exchange application
+# Currency exchange web application
 
 You can test this aplication at the following URL:
 http://currencyexchange-env.jfamyrmdgm.us-east-2.elasticbeanstalk.com/?fbclid=IwAR16ZZmxk6eMylNcU4vrE3LRlsp33Eb2euGt7Hi7J45OUH_Wn1ApiuPP5hk
