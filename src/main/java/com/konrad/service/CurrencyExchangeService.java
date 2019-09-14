@@ -1,4 +1,4 @@
-package com.kainos.service;
+package com.konrad.service;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,8 +7,8 @@ import java.util.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kainos.model.*;
-import com.kainos.utils.ArgumentValidator;
+import com.konrad.model.*;
+import com.konrad.utils.ArgumentValidator;
 import org.springframework.stereotype.Service;
 
 @Service

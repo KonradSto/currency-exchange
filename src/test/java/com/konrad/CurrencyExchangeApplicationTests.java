@@ -1,4 +1,4 @@
-package com.kainos;
+package com.konrad;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

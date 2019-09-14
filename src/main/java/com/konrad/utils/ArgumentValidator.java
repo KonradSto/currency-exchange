@@ -1,4 +1,4 @@
-package com.kainos.utils;
+package com.konrad.utils;
 
 public class ArgumentValidator {
 

@@ -1,9 +1,9 @@
-package com.kainos.configuration;
+package com.konrad.configuration;
 
-import com.kainos.model.HistoricalCurrencyTradeDaily;
-import com.kainos.model.HistoricalCurrencyTradeMonthly;
-import com.kainos.model.HistoricalCurrencyTradeWeekly;
-import com.kainos.model.RealtimeCurrencyTrade;
+import com.konrad.model.HistoricalCurrencyTradeDaily;
+import com.konrad.model.HistoricalCurrencyTradeMonthly;
+import com.konrad.model.HistoricalCurrencyTradeWeekly;
+import com.konrad.model.RealtimeCurrencyTrade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

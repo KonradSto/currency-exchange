@@ -1,10 +1,10 @@
-package com.kainos.controller;
+package com.konrad.controller;
 
 import java.io.IOException;
 import java.util.List;
 
-import com.kainos.service.CurrencyExchangeService;
-import com.kainos.utils.ArgumentValidator;
+import com.konrad.service.CurrencyExchangeService;
+import com.konrad.utils.ArgumentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

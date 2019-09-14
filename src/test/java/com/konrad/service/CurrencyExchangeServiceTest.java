@@ -1,12 +1,12 @@
-package com.kainos.service;
+package com.konrad.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import com.kainos.model.RealtimeCurrencyTrade;
-import com.kainos.model.RealtimeCurrencyTradeAttributes;
+import com.konrad.model.RealtimeCurrencyTrade;
+import com.konrad.model.RealtimeCurrencyTradeAttributes;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
