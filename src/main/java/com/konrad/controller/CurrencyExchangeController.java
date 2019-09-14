@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import com.konrad.service.CurrencyExchangeService;
+import com.konrad.service.DailyCurrencyExchange;
+import com.konrad.service.MonthlyCurrencyExchange;
+import com.konrad.service.WeeklyCurrencyExchange;
 import com.konrad.utils.ArgumentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +20,17 @@ import org.springframework.web.servlet.ModelAndView;
 public class CurrencyExchangeController {
 
     private CurrencyExchangeService currencyExchangeService;
+    private DailyCurrencyExchange dailyCurrencyExchange;
+    private WeeklyCurrencyExchange weeklyCurrencyExchange;
+    private MonthlyCurrencyExchange monthlyCurrencyExchange;
 
     @Autowired
-    public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService) {
+    public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService, DailyCurrencyExchange dailyCurrencyExchange, WeeklyCurrencyExchange weeklyCurrencyExchange, MonthlyCurrencyExchange monthlyCurrencyExchange) {
         ArgumentValidator.ensureNotNull(currencyExchangeService, "currency exchange service");
         this.currencyExchangeService = currencyExchangeService;
+        this.dailyCurrencyExchange = dailyCurrencyExchange;
+        this.weeklyCurrencyExchange = weeklyCurrencyExchange;
+        this.monthlyCurrencyExchange = monthlyCurrencyExchange;
     }
 
     @GetMapping({"/"})
@@ -42,7 +51,17 @@ public class CurrencyExchangeController {
         modelAndView.addObject("to", toCurrency);
         modelAndView.addObject("timeRange", timeRange);
         modelAndView.addObject("value", currencyExchangeService.getCurrentExchangeRate(fromCurrency, toCurrency));
-        modelAndView.addObject("currencyMap", currencyExchangeService.getHistoricalCurrencyExchangeMap(fromCurrency, toCurrency, timeRange));
+        switch (timeRange){
+            case "DAILY":
+                modelAndView.addObject("currencyMap", dailyCurrencyExchange.getHistoricalCurrencyExchangeValues(fromCurrency, toCurrency, timeRange));
+                break;
+            case "WEEKLY":
+                modelAndView.addObject("currencyMap", weeklyCurrencyExchange.getHistoricalCurrencyExchangeValues(fromCurrency, toCurrency, timeRange));
+                break;
+            case "MONTHLY":
+                modelAndView.addObject("currencyMap", monthlyCurrencyExchange.getHistoricalCurrencyExchangeValues(fromCurrency, toCurrency, timeRange));
+                break;
+        }
         return modelAndView;
     }
 }

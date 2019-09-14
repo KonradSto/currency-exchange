@@ -15,24 +15,21 @@ import org.springframework.stereotype.Service;
 public class CurrencyExchangeService {
 
     private RealtimeCurrencyTrade realtimeCurrencyTrade;
-    private HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily;
     private HistoricalCurrencyTradeWeekly historicalCurrencyTradeWeekly;
     private HistoricalCurrencyTradeMonthly historicalCurrencyTradeMonthly;
 
     public CurrencyExchangeService(RealtimeCurrencyTrade realtimeCurrencyTrade, HistoricalCurrencyTradeDaily historicalCurrencyTradeDaily,
                                    HistoricalCurrencyTradeWeekly historicalCurrencyTradeWeekly, HistoricalCurrencyTradeMonthly historicalCurrencyTradeMonthly) {
         ArgumentValidator.ensureNotNull(realtimeCurrencyTrade, "realtime currency trade");
-        ArgumentValidator.ensureNotNull(historicalCurrencyTradeDaily, "historical currency trade daily");
         ArgumentValidator.ensureNotNull(historicalCurrencyTradeWeekly, "historical currency trade weekly");
         ArgumentValidator.ensureNotNull(historicalCurrencyTradeMonthly, "historical currency trade monthly");
         this.realtimeCurrencyTrade = realtimeCurrencyTrade;
-        this.historicalCurrencyTradeDaily = historicalCurrencyTradeDaily;
         this.historicalCurrencyTradeWeekly = historicalCurrencyTradeWeekly;
         this.historicalCurrencyTradeMonthly = historicalCurrencyTradeMonthly;
     }
 
     public String getCurrentExchangeRate(String fromCurrency, String toCurrency) throws IOException {
-        if (fromCurrency.equals(null) || toCurrency.equals(null)){
+        if (fromCurrency == null || toCurrency == null){
             throw new IllegalArgumentException("Both from and to currency cannot be null");
         }
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -63,9 +60,6 @@ public class CurrencyExchangeService {
         Map<String, Float> historicalCurrencyExchangeMap = new LinkedHashMap<>();
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         switch (timeRange) {
-            case "DAILY":
-                historicalCurrencyExchangeMap = getDailyCurrencyExchangeMap(fromCurrency, toCurrency, timeRange, objectMapper);
-                break;
             case "WEEKLY":
                 historicalCurrencyExchangeMap = getWeeklyCurrencyExchangeMap(fromCurrency, toCurrency, timeRange, objectMapper);
                 break;
@@ -97,7 +91,7 @@ public class CurrencyExchangeService {
         }
         return weeklyCurrencyExchangeMap;
     }
-
+/*
     private Map<String, Float> getDailyCurrencyExchangeMap(String fromCurrency, String toCurrency, String timeRange, ObjectMapper objectMapper) throws IOException {
         Map<String, Float> dailyCurrencyExchangeMap = new LinkedHashMap<>();
         historicalCurrencyTradeDaily = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_" + timeRange + "&from_symbol="
@@ -107,5 +101,5 @@ public class CurrencyExchangeService {
             dailyCurrencyExchangeMap.put(key, value);
         }
         return dailyCurrencyExchangeMap;
-    }
+    }*/
 }
