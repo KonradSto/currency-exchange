@@ -1,12 +1,12 @@
-package com.kainos.service;
+package com.konrad.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
-import com.kainos.model.RealtimeCurrencyTrade;
-import com.kainos.model.RealtimeCurrencyTradeAttributes;
+import com.konrad.model.CurrentCurrencyTrade;
+import com.konrad.model.CurrentCurrencyTradeAttributes;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,13 +18,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
-class CurrencyExchangeServiceTest {
+class CurrentCurrencyExchangeServiceTest {
 
     @InjectMocks
-    private CurrencyExchangeService currencyExchangeService;
+    private CurrentCurrencyExchangeService currencyExchangeService;
 
     @Mock
-    RealtimeCurrencyTrade realtimeCurrencyTrade;
+    CurrentCurrencyTrade currentCurrencyTrade;
 
     private String fromCurrency = "USD";
     private String toCurrency = "EUR";
@@ -34,16 +34,16 @@ class CurrencyExchangeServiceTest {
     void shouldReturnCurrentExchangeRate() throws IOException {
         //Given
         String expectedExchangeRate = "1.5";
-        RealtimeCurrencyTradeAttributes realtimeCurrencyTradeAttributes = mock(RealtimeCurrencyTradeAttributes.class);
-        when(realtimeCurrencyTradeAttributes.getExchangeRate()).thenReturn(expectedExchangeRate);
-        when(realtimeCurrencyTrade.getRealtimeCurrencyTradeAttributes()).thenReturn(realtimeCurrencyTradeAttributes);
+        CurrentCurrencyTradeAttributes currentCurrencyTradeAttributes = mock(CurrentCurrencyTradeAttributes.class);
+        when(currentCurrencyTradeAttributes.getExchangeRate()).thenReturn(expectedExchangeRate);
+        when(currentCurrencyTrade.getCurrentCurrencyTradeAttributes()).thenReturn(currentCurrencyTradeAttributes);
 
         //When
         String currencyExchangeResult = currencyExchangeService.getCurrentExchangeRate(fromCurrency, toCurrency);
 
         //Then
         assertEquals(expectedExchangeRate, currencyExchangeResult);
-        verify(realtimeCurrencyTrade.getRealtimeCurrencyTradeAttributes()).getExchangeRate();
+        verify(currentCurrencyTrade.getCurrentCurrencyTradeAttributes()).getExchangeRate();
     }
 }
 

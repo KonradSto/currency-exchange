@@ -1,4 +1,4 @@
-package com.kainos.model;
+package com.konrad.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
