@@ -2,7 +2,7 @@ package com.konrad.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RealtimeCurrencyTradeAttributes {
+public class CurrentCurrencyTradeAttributes {
 
     @JsonProperty("1. From_Currency Code")
     private String fromCurrencyCode;

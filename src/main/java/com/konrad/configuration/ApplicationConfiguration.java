@@ -3,7 +3,7 @@ package com.konrad.configuration;
 import com.konrad.model.HistoricalCurrencyTradeDaily;
 import com.konrad.model.HistoricalCurrencyTradeMonthly;
 import com.konrad.model.HistoricalCurrencyTradeWeekly;
-import com.konrad.model.RealtimeCurrencyTrade;
+import com.konrad.model.CurrentCurrencyTrade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfiguration {
 
     @Bean
-    public RealtimeCurrencyTrade getRealtimeCurrencyTrade(){
-        RealtimeCurrencyTrade realtimeCurrencyTrade = new RealtimeCurrencyTrade();
-        return realtimeCurrencyTrade;
+    public CurrentCurrencyTrade getRealtimeCurrencyTrade(){
+        CurrentCurrencyTrade currentCurrencyTrade = new CurrentCurrencyTrade();
+        return currentCurrencyTrade;
     }
 
     @Bean
