@@ -27,7 +27,7 @@ public class CurrentCurrencyExchangeService {
             log.error("Currency code was not passed and null was received instead", fromCurrency, toCurrency);
             throw new IllegalArgumentException("Both from and to currency cannot be null");
         }
-        log.debug("Getting current currency exchange rate for: {}", fromCurrency, toCurrency);
+        log.debug("Getting current currency exchange rate for: {}", fromCurrency + " & " + toCurrency);
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         currentCurrencyTrade = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency="
             + fromCurrency + "&to_currency=" + toCurrency + "&apikey=IN52AZAATJWV4OQR"), CurrentCurrencyTrade.class);

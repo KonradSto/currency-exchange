@@ -26,7 +26,7 @@ public class MonthlyCurrencyExchange implements TimeRangeCurrencyExchange {
 
     @Override
     public Map getHistoricalCurrencyExchangeValues(String fromCurrency, String toCurrency) throws IOException {
-        log.debug("Getting monthly currency exchange rates for: {}", fromCurrency, toCurrency);
+        log.debug("Getting monthly currency exchange rates for: {}", fromCurrency + " & " + toCurrency);
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Map<String, Float> monthlyCurrencyExchangeMap = new LinkedHashMap<>();
         historicalCurrencyTradeMonthly = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_MONTHLY&from_symbol="

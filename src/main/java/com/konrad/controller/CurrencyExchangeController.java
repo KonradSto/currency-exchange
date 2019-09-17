@@ -43,12 +43,12 @@ public class CurrencyExchangeController {
 
     @GetMapping({"/"})
     public ModelAndView showCurrencyExchangePanel(){
-        log.debug("Displaying currency exchange homepage");
         ModelAndView model = new ModelAndView("homepage");
         String currencyCode = "";
         List<String> currencyList = currencyCodesListCreator.setCurrencyCodesList();
         model.addObject("currencyCode", currencyCode);
         model.addObject("currencyList", currencyList);
+        log.debug("Displaying currency exchange homepage");
         return model;
     }
 

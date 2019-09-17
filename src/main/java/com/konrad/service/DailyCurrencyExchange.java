@@ -32,7 +32,7 @@ public class DailyCurrencyExchange implements TimeRangeCurrencyExchange {
             log.error("Currency code was not passed and null was received instead", fromCurrency, toCurrency);
             throw new IllegalArgumentException("Neither from & to currency code cannot be null");
         }
-        log.debug("Getting daily currency exchange rates for: {}", fromCurrency, toCurrency);
+        log.debug("Getting daily currency exchange rates for: {}", fromCurrency + " & " + toCurrency);
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Map<String, Float> dailyCurrencyExchangeMap = new LinkedHashMap<>();
         historicalCurrencyTradeDaily = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_DAILY&from_symbol="

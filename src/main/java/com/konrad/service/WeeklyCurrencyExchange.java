@@ -26,7 +26,7 @@ public class WeeklyCurrencyExchange implements TimeRangeCurrencyExchange{
 
     @Override
     public Map getHistoricalCurrencyExchangeValues(String fromCurrency, String toCurrency) throws IOException {
-        log.debug("Getting weekly currency exchange rates for: {}", fromCurrency, toCurrency);
+        log.debug("Getting weekly currency exchange rates for: {}", fromCurrency + " & " + toCurrency);
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Map<String, Float> weeklyCurrencyExchangeMap = new LinkedHashMap<>();
         historicalCurrencyTradeWeekly = objectMapper.readValue(new URL("https://www.alphavantage.co/query?function=FX_WEEKLY&from_symbol="
