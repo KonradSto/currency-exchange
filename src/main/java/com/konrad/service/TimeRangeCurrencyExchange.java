@@ -7,5 +7,5 @@ import java.util.Queue;
 
 public interface TimeRangeCurrencyExchange {
 
-    Map getHistoricalCurrencyExchangeValues(String fromCurrency, String toCurrency, String timeRange) throws IOException;
+    Map getHistoricalCurrencyExchangeValues(String fromCurrency, String toCurrency) throws IOException;
 }
