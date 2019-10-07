@@ -6,8 +6,10 @@ node{
   }
   
   stage ('Compile Stage') {
-    withMaven(maven : 'maven_3_6_2') {
-      sh 'mvn clean compile'
+    dir('currency'){
+      withMaven(maven : 'maven_3_6_2') {
+        sh 'mvn clean compile'
+      }
     }
   }
   
