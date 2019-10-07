@@ -14,8 +14,10 @@ node{
   }
   
   stage ('Test Stage') {
-    withMaven(maven : 'maven_3_6_2') {
-      sh 'mvn test'
+    dir('currency'){
+      withMaven(maven : 'maven_3_6_2') {
+        sh 'mvn test'
+      }
     }
   }
   
