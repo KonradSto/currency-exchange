@@ -28,7 +28,7 @@ node{
   }
   
   stage('Build App'){
-    sh 'docker run -d -p 8070:5000 currency-exchange-jenkins'
+    sh 'docker run -d -p 8070:5000 --name currency_exchange currency-exchange-jenkins'
   }
   
   stage('Clean up'){
