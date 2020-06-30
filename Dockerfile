@@ -1,5 +1,7 @@
 FROM ubuntu
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get -y update && apt-get install -y \
 	curl \
 	openjdk-8-jdk \
@@ -27,3 +29,5 @@ RUN mvn clean install
 RUN chmod 777 /tmp
 
 CMD ["java", "-jar","/usr/src/myapp/currency-exchange/target/currency-exchange-app-0.0.1-SNAPSHOT.jar"]
+
+EXPOSE 80
